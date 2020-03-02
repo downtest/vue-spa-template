@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:1.17.8-alpine
+    volumes:
+      - ./app:/var/www/html
+      - ./docker/nginx/conf:/etc/nginx
+    ports:
+      - 81:80
+
+  node:
+    build:
+      context: ./docker/node
+    volumes:
+      - ./app:/var/www/html
+    working_dir: /var/www/html
+    command: sh -c 'yarn install && yarn build'
